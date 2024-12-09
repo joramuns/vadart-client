@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	"log"
-	"vadart_redis_client/internal/application"
+	"vadart-client/internal/application"
 )
 
 func main() {

@@ -1,7 +1,7 @@
 package application
 
 import (
-	"vadart_redis_client/pkg/vadart-redis"
+	"vadart-client/pkg/vadart-redis"
 )
 
 type Application struct {

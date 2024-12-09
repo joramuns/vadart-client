@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 	"time"
-	"vadart_redis_client/internal"
+	"vadart-client/internal"
 )
 
 func (c *Connection) ShowAll() map[string]internal.Article {
