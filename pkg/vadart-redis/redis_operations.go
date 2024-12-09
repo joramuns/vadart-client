@@ -1,4 +1,4 @@
-package redis
+package vadart_redis
 
 import (
 	"context"
