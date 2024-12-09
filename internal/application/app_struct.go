@@ -1,15 +1,15 @@
 package application
 
 import (
-	rdb "vadart_redis_client/internal/redis"
+	"vadart_redis_client/pkg/redis"
 )
 
 type Application struct {
-	RDB *rdb.Connection
+	RDB *redis.Connection
 }
 
 func NewApplication() *Application {
 	return &Application{
-		RDB: rdb.NewRDB(),
+		RDB: redis.NewRDB(),
 	}
 }
