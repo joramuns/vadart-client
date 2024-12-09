@@ -1,23 +1,15 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/joho/godotenv"
 	"log"
 	"time"
 	"vadart_redis_client/internal"
+	"vadart_redis_client/internal/application"
 )
 
 var articles = make(map[int]*internal.Article)
-
-func showAll() {
-	data, err := json.MarshalIndent(articles, "", "  ")
-	if err != nil {
-		log.Println("Marshall error:", err)
-	}
-	fmt.Println(string(data))
-}
 
 func addItem() {
 	var id int
@@ -55,7 +47,7 @@ func main() {
 	if err != nil {
 		log.Println("Error loading .env file:", err)
 	}
-	app := internal.NewApplication()
+	app := application.NewApplication()
 
 	var input string
 	for {
@@ -67,8 +59,13 @@ func main() {
 			addItem()
 		} else if input == "del" {
 			delItem()
+		} else if input == "clear" {
+			var id string
+			fmt.Println("Enter ID:")
+			fmt.Scanln(&id)
+			app.ClearID(id)
 		} else if input == "show" {
-			showAll()
+			app.ShowAll()
 		}
 	}
 }

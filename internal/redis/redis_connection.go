@@ -1,4 +1,4 @@
-package internal
+package redis
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func GetRDB() *redis.Client {
+func NewRDB() *Connection {
 	ctx := context.Background()
 
 	redisAddr := os.Getenv("REDIS_HOST") + ":" + os.Getenv("REDIS_PORT")
@@ -30,5 +30,5 @@ func GetRDB() *redis.Client {
 	}
 	log.Println("Redis connected:", pong)
 
-	return rdb
+	return &Connection{conn: rdb}
 }
