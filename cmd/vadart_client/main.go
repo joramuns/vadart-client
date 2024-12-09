@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/joho/godotenv"
+	"github.com/joramuns/vadart-client/internal/application"
 	"log"
-	"vadart-client/internal/application"
 )
 
 func main() {

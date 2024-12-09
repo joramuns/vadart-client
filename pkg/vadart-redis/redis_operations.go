@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/joramuns/vadart-client/internal"
 	"log"
 	"time"
-	"vadart-client/internal"
 )
 
 func (c *Connection) ShowAll() map[string]internal.Article {

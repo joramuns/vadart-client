@@ -1,4 +1,4 @@
-module vadart-client
+module github.com/joramuns/vadart-client
 
 go 1.22.3
 
