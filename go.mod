@@ -1,4 +1,4 @@
-module vadart_redis_client
+module vadart-client
 
 go 1.22.3
 
