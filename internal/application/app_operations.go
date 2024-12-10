@@ -49,7 +49,7 @@ func (a *Application) ClearID() {
 	fmt.Scanln(&id)
 	err := a.RDB.ClearID(id)
 	if err != nil {
-		fmt.Println("Error clearing ID:", err)
+		log.Println("Error clearing ID:", err)
 	}
 }
 
@@ -57,7 +57,25 @@ func (a *Application) ShowAll() {
 	articles := a.RDB.ShowAll()
 	data, err := json.MarshalIndent(articles, "", "  ")
 	if err != nil {
-		fmt.Println("error marshalling in Application ShowAll:", err)
+		log.Println("error marshalling in Application ShowAll:", err)
 	}
 	fmt.Println(string(data))
+}
+
+func (a *Application) Command() {
+	var (
+		receiver string
+		command  string
+		value    string
+	)
+	fmt.Println("Enter bot name:")
+	fmt.Scanln(&receiver)
+	fmt.Println("Enter command:")
+	fmt.Scanln(&command)
+	fmt.Println("Enter value:")
+	fmt.Scanln(&value)
+	err := a.RDB.Command(receiver, command, value)
+	if err != nil {
+		log.Println("Error in command:", err)
+	}
 }

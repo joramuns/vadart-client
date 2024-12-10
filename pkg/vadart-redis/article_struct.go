@@ -1,4 +1,4 @@
-package internal
+package vadart_redis
 
 import "time"
 

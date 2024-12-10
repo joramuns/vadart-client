@@ -4,17 +4,16 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/joramuns/vadart-client/internal"
 	"log"
 	"time"
 )
 
-func (c *Connection) ShowAll() map[string]internal.Article {
+func (c *Connection) ShowAll() map[string]Article {
 	articles, err := c.conn.HGetAll(context.Background(), "articles").Result()
 	if err != nil {
 		log.Println("HGetAll in Redis error:", err)
 	}
-	var articleMap = make(map[string]internal.Article)
+	var articleMap = make(map[string]Article)
 	for key, value := range articles {
 		article, err := c.unmarshalItem([]byte(value))
 		if err != nil {
@@ -43,7 +42,7 @@ func (c *Connection) ClearID(id string) error {
 }
 
 func (c *Connection) AddItem(id string, minPrice, maxPrice int) error {
-	article := internal.Article{
+	article := Article{
 		Status:    true,
 		ArticleId: id,
 		MinPrice:  minPrice,
@@ -104,7 +103,24 @@ func (c *Connection) CheckStatus(id string) bool {
 	return article.Status
 }
 
-func (c *Connection) pushItem(id string, article internal.Article) error {
+func (c *Connection) Command(receiver, command, value string) error {
+	com := Settings{
+		Receiver: receiver,
+		Command:  command,
+		Value:    value,
+	}
+	jsonData, err := json.Marshal(com)
+	if err != nil {
+		return fmt.Errorf("error marshalling in Command: %v", err)
+	}
+	err = c.conn.Publish(context.Background(), "master", jsonData).Err()
+	if err != nil {
+		return fmt.Errorf("error publishing in master: %v", err)
+	}
+	return nil
+}
+
+func (c *Connection) pushItem(id string, article Article) error {
 	jsonData, err := json.Marshal(article)
 	if err != nil {
 		return fmt.Errorf("error marshalling in AddItem: %v", err)
@@ -117,11 +133,11 @@ func (c *Connection) pushItem(id string, article internal.Article) error {
 	return nil
 }
 
-func (c *Connection) unmarshalItem(value []byte) (internal.Article, error) {
-	var article internal.Article
+func (c *Connection) unmarshalItem(value []byte) (Article, error) {
+	var article Article
 	err := json.Unmarshal(value, &article)
 	if err != nil {
-		return internal.Article{}, fmt.Errorf("unmarshall error in Connection GetItem: %v", err)
+		return Article{}, fmt.Errorf("unmarshall error in Connection GetItem: %v", err)
 	}
 	return article, nil
 }

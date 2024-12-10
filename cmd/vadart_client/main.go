@@ -28,6 +28,10 @@ func main() {
 			app.ClearID()
 		} else if input == "show" {
 			app.ShowAll()
+		} else if input == "command" {
+			app.Command()
+		} else {
+			log.Println("Wrong command input!")
 		}
 	}
 }
