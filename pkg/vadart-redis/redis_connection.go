@@ -30,5 +30,5 @@ func NewRDB() *Connection {
 	}
 	log.Println("Redis connected:", pong)
 
-	return &Connection{conn: rdb}
+	return &Connection{Conn: rdb}
 }

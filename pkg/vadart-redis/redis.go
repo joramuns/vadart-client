@@ -5,5 +5,5 @@ import (
 )
 
 type Connection struct {
-	conn *redis.Client
+	Conn *redis.Client
 }
