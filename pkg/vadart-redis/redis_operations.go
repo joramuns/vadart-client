@@ -26,6 +26,7 @@ func (c *Connection) ShowAll() map[string]Article {
 }
 
 func (c *Connection) ClearID(id string) error {
+	c.Conn.Publish(context.Background(), "articles", "del"+id)
 	exists, err := c.Conn.HExists(context.Background(), "articles", id).Result()
 	if err != nil {
 		return fmt.Errorf("hexists in Redis error: %v", err)
@@ -38,6 +39,7 @@ func (c *Connection) ClearID(id string) error {
 	if err != nil {
 		return fmt.Errorf("clear by ID error: %v", err)
 	}
+
 	return nil
 }
 
