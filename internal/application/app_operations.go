@@ -53,6 +53,20 @@ func (a *Application) ClearID() {
 	}
 }
 
+func (a *Application) ClearAll() {
+	err := a.RDB.ClearAll()
+	if err != nil {
+		log.Println("ClearAll error:", err)
+	}
+}
+
+func (a *Application) RefreshPubsub() {
+	err := a.RDB.RefreshPubSub()
+	if err != nil {
+		log.Println("RefreshPubsub error:", err)
+	}
+}
+
 func (a *Application) ShowAll() {
 	articles := a.RDB.ShowAll()
 	data, err := json.MarshalIndent(articles, "", "  ")

@@ -41,6 +41,37 @@ func (c *Connection) ClearID(id string) error {
 	return nil
 }
 
+func (c *Connection) ClearAll() error {
+	articles, err := c.Conn.HGetAll(context.Background(), "articles").Result()
+	if err != nil {
+		return fmt.Errorf("HGetAll error in ClearAll: %v", err)
+	}
+
+	for key := range articles {
+		err = c.ClearID(key)
+		if err != nil {
+			return fmt.Errorf("error clearing in loop: %v", err)
+		}
+	}
+	return nil
+}
+
+func (c *Connection) RefreshPubSub() error {
+	articles := c.ShowAll()
+
+	for key, value := range articles {
+		if value.Status == true {
+			listeners, err := c.Conn.Publish(context.Background(), "articles", "add"+key).Result()
+			if err != nil {
+				return fmt.Errorf("error in refreshing pubsub: %v", err)
+			} else {
+				log.Printf("%s subscribers refreshed %s\n", listeners, value.ArticleId)
+			}
+		}
+	}
+	return nil
+}
+
 func (c *Connection) AddItem(id string, minPrice, maxPrice int) error {
 	article := Article{
 		Status:    true,

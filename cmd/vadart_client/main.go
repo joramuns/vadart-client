@@ -30,6 +30,10 @@ func main() {
 			app.ShowAll()
 		} else if input == "command" {
 			app.Command()
+		} else if input == "clearall" {
+			app.ClearAll()
+		} else if input == "refresh" {
+			app.RefreshPubsub()
 		} else {
 			log.Println("Wrong command input!")
 		}
