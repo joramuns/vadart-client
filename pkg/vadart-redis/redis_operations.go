@@ -67,7 +67,7 @@ func (c *Connection) RefreshPubSub() error {
 			if err != nil {
 				return fmt.Errorf("error in refreshing pubsub: %v", err)
 			} else {
-				log.Printf("%s subscribers refreshed %s\n", listeners, value.ArticleId)
+				log.Printf("%d subscribers refreshed %s\n", listeners, value.ArticleId)
 			}
 		}
 	}
