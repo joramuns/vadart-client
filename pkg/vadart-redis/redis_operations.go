@@ -64,6 +64,9 @@ func (c *Connection) AddItem(id string, minPrice, maxPrice int) error {
 }
 
 func (c *Connection) UpdateItem(id, orderId string, price int) error {
+	startTime := time.Now()
+	c.Conn.Publish(context.Background(), "articles", "del"+id)
+
 	data, err := c.Conn.HGet(context.Background(), "articles", id).Result()
 	if err != nil {
 		return fmt.Errorf("get item error in del item: %v", err)
@@ -82,8 +85,7 @@ func (c *Connection) UpdateItem(id, orderId string, price int) error {
 	if err != nil {
 		return fmt.Errorf("error in Connection UpdateItem: %v", err)
 	}
-
-	c.Conn.Publish(context.Background(), "articles", "del"+id)
+	log.Println("* UpdateItem finished in:", time.Since(startTime))
 
 	return nil
 }
