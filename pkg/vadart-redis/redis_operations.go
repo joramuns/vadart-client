@@ -138,6 +138,21 @@ func (c *Connection) CheckStatus(id string) bool {
 	return article.Status
 }
 
+func (c *Connection) GetOrderData(id string) (bool, int, int) {
+	data, err := c.Conn.HGet(context.Background(), "articles", id).Result()
+	if err != nil {
+		log.Println("get item error in check status:", err)
+		return false, 0, 0
+	}
+	article, err := c.unmarshalItem([]byte(data))
+	if err != nil {
+		log.Println("error in unmarshalling:", err)
+		return false, 0, 0
+	}
+
+	return article.Status, article.MinPrice, article.MaxPrice
+}
+
 func (c *Connection) Command(receiver, command, value string) error {
 	com := Settings{
 		Receiver: receiver,
