@@ -61,6 +61,8 @@ func main() {
 	b.Handle("/clearall", handlers.ClearAll(rdb), telebot.Authorize())
 	b.Handle("/add", handlers.Add(rdb), telebot.Authorize())
 	b.Handle("/sleep", handlers.Sleep(rdb), telebot.Authorize())
+	b.Handle("/check", handlers.Check(rdb), telebot.Authorize())
+	b.Handle("/session", handlers.Session(rdb), telebot.Authorize())
 
 	go SubscribeTrading(rdb, b)
 
