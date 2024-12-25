@@ -15,8 +15,11 @@ func Session(rdb *vr.Connection) tele.HandlerFunc {
 			return c.Send("Wrong session format - /session session-id")
 		}
 
-		rdb.Conn.Set(context.Background(), "PHPSESSID", parts[1], -1)
-		err := rdb.Command("ALL", "session", parts[1])
+		err := rdb.Conn.Set(context.Background(), "PHPSESSID", parts[1], -1).Err()
+		if err != nil {
+			return c.Send("Error in set key:", err)
+		}
+		err = rdb.Command("ALL", "session", parts[1])
 		if err != nil {
 			return c.Send("Error in command check:", err)
 		}
