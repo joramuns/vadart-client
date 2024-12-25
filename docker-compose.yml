@@ -1,0 +1,11 @@
+services:
+  user-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - REDIS_HOST=0
+      - REDIS_PORT=0
+      - REDIS_USERNAME=0
+      - REDIS_PASSWORD=0
+      - TOKEN=0
